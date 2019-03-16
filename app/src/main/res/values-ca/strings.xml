@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- IDIOMA CATALÁN -->
+<resources>
+    <string name="app_name">Quizzes</string>
+    <string name="button_fail">Tornar a intentar</string>
+    <string name="button_finish">Tornar a jugar</string>
+    <string name="button_success">Següent</string>
+    <string name="button">Enviar</string>
+    <string name="questionTitle">Quin valor de \'y\' és una solució a aquesta equació?</string>
+    <string name="question_ok">Correcte</string>
+    <string name="question_fail">Ha fallat, torna-ho a provar!!</string>
+    <string name="finish_game">Felicitats! Heu acabat la lliçó!</string>
+    <string name="no_response">No s\'ha seleccionat cap respota</string>
+</resources>

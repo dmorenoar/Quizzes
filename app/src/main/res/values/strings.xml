@@ -1,0 +1,13 @@
+<!-- IDIOMA INGLÉS -->
+<resources>
+    <string name="app_name">Quizzes</string>
+    <string name="button_fail">Try again</string>
+    <string name="button_finish">Start again</string>
+    <string name="button_success">Next</string>
+    <string name="button">Send</string>
+    <string name="questionTitle">What value of \'y\' is a solution to this equation?</string>
+    <string name="question_ok">Right</string>
+    <string name="question_fail">You have failed, try again!!</string>
+    <string name="finish_game">Congratulations! You have finished the lesson!</string>
+    <string name="no_response">No response selected</string>
+</resources>
