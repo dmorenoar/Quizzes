@@ -1,6 +1,7 @@
 package quizz.uoc.quizzes.Activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import quizz.uoc.quizzes.DBHelpers.SQLHelper;
 import quizz.uoc.quizzes.Model.Question;
 import quizz.uoc.quizzes.R;
 
@@ -30,6 +32,11 @@ public class Activity1 extends AppCompatActivity implements View.OnClickListener
     private List<Question> listQuestions;
     private static int counterQuestion = 1;
     private int counterPlus,restart;
+
+
+    //Create the instance of dbHelper
+    private SQLHelper sqlHelper;
+    private SQLiteDatabase db;
 
 
     @Override
@@ -48,11 +55,39 @@ public class Activity1 extends AppCompatActivity implements View.OnClickListener
         //Set listeners
         btnSend.setOnClickListener(this);
 
-        //Load all the list of questions into the List
-        this.listQuestions = getAllQuestions();
+        //Creamos el objeto sqlHelper y la base de datos
+        sqlHelper = new SQLHelper(this,"Quizzes.db", null, 1);
+        db = sqlHelper.getWritableDatabase();
+
+        //Load all the list of questions into the List from the SQLite
+        if(getAllQuestions(db).size() == 0) {
+            insertQuestion(db,  new Question(R.string.questionTitle,"10 y = 70", new String[]{ "y = 7","y = 23" },"y = 7"));
+            insertQuestion(db,  new Question(R.string.questionTitle,"3 y = 15", new String[]{ "y = 7","y = 5" },"y = 5"));
+            insertQuestion(db,  new Question(R.string.questionTitle,"2 y = 10", new String[]{ "y = 5","y = 3" },"y = 5"));
+        }
+
+        //Fill the array with the questions
+        this.listQuestions = getAllQuestions(db);
 
         updateActivity();
 
+    }
+
+    //Close the db when the activity onDestroy
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
+    //Method to insert question in the db
+    private void insertQuestion(SQLiteDatabase db, Question q){
+        sqlHelper.insertQuestion(db, q);
+    }
+
+    //Method to load all questions from db
+    private List<Question> getAllQuestions(SQLiteDatabase db){
+        return sqlHelper.getAllQuestions(db);
     }
 
     /*Upadte the activity, load the question, answers and counter value*/
@@ -73,16 +108,6 @@ public class Activity1 extends AppCompatActivity implements View.OnClickListener
     protected void onRestart() {
         super.onRestart();
         updateActivity();
-    }
-
-    //Creation of the questions
-    public List<Question> getAllQuestions(){
-        List<Question> list = new ArrayList<Question>(){{
-            add( new Question(R.string.questionTitle,"10 y = 70", new String[]{ "y = 7","y = 23" },"y = 7"));
-            add( new Question(R.string.questionTitle,"3 y = 15", new String[]{ "y = 7","y = 5" },"y = 5"));
-            add( new Question(R.string.questionTitle,"2 y = 10", new String[]{ "y = 5","y = 3" },"y = 5"));
-        }};
-        return list;
     }
 
     /*When the activity2 is call, we transfer the state to detect correct o incorrect answer
